@@ -63,10 +63,16 @@ public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDa
         Weather mWeather = mDataModelList.get(i).getWeather().get(0);
 
         dataViewHolder.txtTime.setText(mFiveDaysList.getDtTxt());
-        dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()));
+        dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp() + " \u2103"));
         dataViewHolder.txtHumidity.setText(String.valueOf(mMain.getHumidity()));
         dataViewHolder.txtWind.setText(String.valueOf(mWind.getSpeed()));
-        dataViewHolder.txtRain.setText(String.valueOf(mRain.get3h()));
+        if(mRain!=null)
+        {
+            dataViewHolder.txtRain.setText(String.valueOf(mRain.get3h()));
+        }else
+        {
+            dataViewHolder.txtRain.setText("No Prediction");
+        }
 
 
         Glide.with(mActivity).load("http://openweathermap.org/img/w/" + mWeather.getIcon() + ".png")
