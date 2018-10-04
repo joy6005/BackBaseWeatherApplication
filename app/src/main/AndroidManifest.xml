@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".BackBaseApplication"
+        android:name=".support.BackBaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.backbase.weatherapp.HomeActivity"
+            android:name="com.backbase.weatherapp.ui.home.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,28 +23,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.backbase.weatherapp.CityDetailActivity"
+            android:name="com.backbase.weatherapp.ui.cities.CityDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName="com.backbase.weatherapp.HomeActivity"
+            android:parentActivityName="com.backbase.weatherapp.ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.backbase.weatherapp.HomeActivity"/>
+                android:value="com.backbase.weatherapp.ui.home.HomeActivity"/>
         </activity>
         <activity
             android:name="com.backbase.weatherapp.ui.help.HelpActivity"
             android:label="Help">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.backbase.weatherapp.HomeActivity"/>
+                android:value="com.backbase.weatherapp.ui.home.HomeActivity"/>
         </activity>
         <activity
             android:name="com.backbase.weatherapp.ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.backbase.weatherapp.HomeActivity">
+            android:parentActivityName="com.backbase.weatherapp.ui.home.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.backbase.weatherapp.HomeActivity"/>
+                android:value="com.backbase.weatherapp.ui.home.HomeActivity"/>
         </activity>
     </application>
 
