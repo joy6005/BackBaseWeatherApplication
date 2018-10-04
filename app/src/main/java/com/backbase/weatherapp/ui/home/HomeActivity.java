@@ -1,7 +1,5 @@
 package com.backbase.weatherapp.ui.home;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,21 +8,16 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.backbase.weatherapp.adapters.FavoriteCitiesRecyclerViewAdapter;
 import com.backbase.weatherapp.support.BackBaseApplication;
-import com.backbase.weatherapp.ui.cities.CityDetailActivity;
-import com.backbase.weatherapp.ui.cities.CityDetailFragment;
 import com.backbase.weatherapp.R;
 import com.backbase.weatherapp.db.FavoriteCity;
-import com.backbase.weatherapp.models.DummyContent;
 import com.backbase.weatherapp.ui.help.HelpActivity;
 import com.backbase.weatherapp.ui.settings.SettingsActivity;
 
@@ -34,7 +27,8 @@ public class HomeActivity extends AppCompatActivity
 {
     private boolean mTwoPane;
     private List<FavoriteCity>mFavoriteCityList;
-
+    private FavoriteCitiesRecyclerViewAdapter mFavoriteCitiesRecyclerViewAdapter;
+    private static String []cityName = {"Toronto", "Edmonton", "Winnipeg", "Ottawa", "Vancouver"};
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -72,6 +66,7 @@ public class HomeActivity extends AppCompatActivity
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -98,85 +93,9 @@ public class HomeActivity extends AppCompatActivity
     {
         List<FavoriteCity>mFavoriteCityList = BackBaseApplication.getGlobalApplicationInstance().getDB().favorityCityDao().getAll();
         Log.d("SIZE", "COUNT : " + mFavoriteCityList.size());
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        mFavoriteCitiesRecyclerViewAdapter = new FavoriteCitiesRecyclerViewAdapter(this, mFavoriteCityList, mTwoPane);
+        recyclerView.setAdapter(mFavoriteCitiesRecyclerViewAdapter);
     }
 
-    public static class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>
-    {
 
-        private final HomeActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
-        private final boolean mTwoPane;
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                if (mTwoPane)
-                {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(CityDetailFragment.ARG_ITEM_ID, item.id);
-                    CityDetailFragment fragment = new CityDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit();
-                } else
-                {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, CityDetailActivity.class);
-                    intent.putExtra(CityDetailFragment.ARG_ITEM_ID, item.id);
-                    context.startActivity(intent);
-                }
-            }
-        };
-
-        SimpleItemRecyclerViewAdapter(HomeActivity parent,
-                                      List<DummyContent.DummyItem> items,
-                                      boolean twoPane)
-        {
-            mValues = items;
-            mParentActivity = parent;
-            mTwoPane = twoPane;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position)
-        {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
-
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            return mValues.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
-            final TextView mIdView;
-            final TextView mContentView;
-
-            ViewHolder(View view)
-            {
-                super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
-            }
-        }
-    }
 }

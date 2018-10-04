@@ -15,13 +15,11 @@ import android.widget.TextView;
 
 import com.backbase.weatherapp.R;
 import com.backbase.weatherapp.db.FavoriteCity;
-import com.backbase.weatherapp.support.BackBaseApplication;
-import com.backbase.weatherapp.ui.home.HomeActivity;
+import com.backbase.weatherapp.utils.BackBaseUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.backbase.weatherapp.adapters.FiveDaysAdapter;
-import com.backbase.weatherapp.models.DummyContent;
 import com.backbase.weatherapp.models.openweather.WeatherItem;
 import com.backbase.weatherapp.models.openweather.list.City;
 import com.backbase.weatherapp.models.openweather.list.FiveDaysList;
@@ -39,13 +37,14 @@ public class CityDetailFragment extends Fragment
     public static final String ARG_ITEM_ID = "item_id";
     public static final String TAG = CityDetailFragment.class.getCanonicalName();
 
-    private DummyContent.DummyItem mItem;
+    private FavoriteCity mFavoriteCity;
     private ImageView imageView;
     private TextView txtDetails;
     private TextView txtFiveDays;
     private RecyclerView rvFiveDayWeather;
     private FiveDaysAdapter mFiveDaysAdapter;
     private List<FiveDaysList> mDataModelList;
+    private String cityName;
 
     public CityDetailFragment()
     {
@@ -58,16 +57,12 @@ public class CityDetailFragment extends Fragment
 
         if (getArguments().containsKey(ARG_ITEM_ID))
         {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
+            cityName =  getArguments().getString(ARG_ITEM_ID);
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null)
             {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(cityName);
             }
         }
     }
@@ -91,7 +86,7 @@ public class CityDetailFragment extends Fragment
 
         imageView = rootView.findViewById(R.id.imgWeatherStatus);
         // Show the dummy content as text in a TextView.
-        if (mItem != null)
+        if (cityName != null)
         {
             new AsyncNetworkCall(new NetworkResponse()
             {
@@ -104,7 +99,7 @@ public class CityDetailFragment extends Fragment
                         JSONObject mJsonObject = new JSONObject(response);
                         String imageName = mJsonObject.getJSONArray("weather").getJSONObject(0).getString("icon");
                         Glide.with(getActivity())
-                                .load("http://openweathermap.org/img/w/" + imageName + ".png")
+                                .load(BackBaseUtils.getImageUrl(imageName ))
                                 .into(imageView);
 
                         Gson gson = new GsonBuilder().create();
@@ -123,7 +118,7 @@ public class CityDetailFragment extends Fragment
                 {
 
                 }
-            }).execute("http://api.openweathermap.org/data/2.5/weather?q="+mItem.content + "&appid=c6e381d8c7ff98f0fee43775817cf6ad&units=metric");
+            }).execute(BackBaseUtils.getCurrentCityUrl(cityName));
 
         }
 
@@ -132,12 +127,10 @@ public class CityDetailFragment extends Fragment
             @Override
             public void onSuccess(String response)
             {
-                //txtFiveDays.setText(response);
                 Gson gson = new GsonBuilder().create();
                 City dm = gson.fromJson(response, City.class);
 
                 mFiveDaysAdapter.addAll(dm.getList());
-                //Log.d(TAG,dm.getName());
             }
 
             @Override
@@ -145,7 +138,7 @@ public class CityDetailFragment extends Fragment
             {
 
             }
-        }).execute("http://api.openweathermap.org/data/2.5/forecast?q=" + mItem.content + "&appid=c6e381d8c7ff98f0fee43775817cf6ad&units=metric");
+        }).execute(BackBaseUtils.getFiveDayWeatherUrl(cityName));
 
         return rootView;
     }
