@@ -1,6 +1,8 @@
 package com.backbase.weatherapp.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.backbase.weatherapp.R;
 import com.backbase.weatherapp.db.FavoriteCity;
+import com.backbase.weatherapp.support.BackBaseApplication;
 import com.backbase.weatherapp.ui.cities.CityDetailActivity;
 import com.backbase.weatherapp.ui.cities.CityDetailFragment;
 import com.backbase.weatherapp.ui.home.HomeActivity;
@@ -50,6 +53,38 @@ public class FavoriteCitiesRecyclerViewAdapter
         }
     };
 
+    private final View.OnLongClickListener mOnLongPressed = new View.OnLongClickListener()
+    {
+        @Override
+        public boolean onLongClick(View view)
+        {
+            final FavoriteCity city = (FavoriteCity) view.getTag();
+
+            AlertDialog.Builder showPlace = new AlertDialog.Builder(
+                    mParentActivity);
+            showPlace.setMessage("Remove from list?");
+            showPlace.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    BackBaseApplication.getGlobalApplicationInstance()
+                            .getDB()
+                            .favorityCityDao()
+                            .delete(city);
+                    mFavoriteCityList.remove(city);
+                    notifyDataSetChanged();
+                }
+
+            });
+            showPlace.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            showPlace.show();
+            return true;
+        }
+    };
+
     public FavoriteCitiesRecyclerViewAdapter(HomeActivity parent,
                                       List<FavoriteCity> favoriteCityList,
                                       boolean twoPane)
@@ -74,6 +109,7 @@ public class FavoriteCitiesRecyclerViewAdapter
 
         holder.itemView.setTag(mFavoriteCityList.get(position));
         holder.itemView.setOnClickListener(mOnClickListener);
+        holder.itemView.setOnLongClickListener(mOnLongPressed);
     }
 
     @Override
