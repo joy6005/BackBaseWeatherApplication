@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.backbase.weatherapp.db.FavoriteCity;
 import com.backbase.weatherapp.models.DummyContent;
 import com.backbase.weatherapp.ui.help.HelpActivity;
 import com.backbase.weatherapp.ui.settings.SettingsActivity;
@@ -93,6 +95,8 @@ public class ItemListActivity extends AppCompatActivity
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView)
     {
+        List<FavoriteCity>mFavoriteCityList = BackBaseApplication.getGlobalApplicationInstance().getDB().favorityCityDao().getAll();
+        Log.d("SIZE", "COUNT : " + mFavoriteCityList.size());
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
     }
 
