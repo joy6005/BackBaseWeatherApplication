@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.backbase.weatherapp.utils.BackBaseUtils;
 import com.bumptech.glide.Glide;
 import com.backbase.weatherapp.R;
 import com.backbase.weatherapp.models.openweather.Main;
@@ -62,16 +63,18 @@ public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDa
         Rain mRain = mDataModelList.get(i).getRain();
         Weather mWeather = mDataModelList.get(i).getWeather().get(0);
 
-        dataViewHolder.txtTime.setText(mFiveDaysList.getDtTxt());
-        dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp() + " \u2103"));
-        dataViewHolder.txtHumidity.setText(String.valueOf(mMain.getHumidity()));
-        dataViewHolder.txtWind.setText(String.valueOf(mWind.getSpeed()));
+        String date = BackBaseUtils.getDateFromTimeStamp(mFiveDaysList.getDt());
+        dataViewHolder.txtTime.setText(date);
+        //dataViewHolder.txtTime.setText(mFiveDaysList.getDtTxt());
+        dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()) + " \u2103");
+        dataViewHolder.txtHumidity.setText("Humidity : " + String.valueOf(Math.round(mMain.getHumidity()))  + "%");
+        dataViewHolder.txtWind.setText("Wind : " + String.valueOf(Math.round(mWind.getSpeed())) + "m/s");
         if(mRain!=null)
         {
-            dataViewHolder.txtRain.setText(String.valueOf(mRain.get3h()));
+            dataViewHolder.txtRain.setText("Rain : " + String.valueOf(Math.round(mRain.get3h())) + "%");
         }else
         {
-            dataViewHolder.txtRain.setText("No Prediction");
+            dataViewHolder.txtRain.setText("No Rain Prediction");
         }
 
 
