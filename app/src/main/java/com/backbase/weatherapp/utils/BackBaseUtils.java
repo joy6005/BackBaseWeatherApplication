@@ -33,9 +33,21 @@ public class BackBaseUtils
         return String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=%s",cityName, API_KEY,TEMP_UNITS);
     }
 
+    public static String getCurrentCityUrlByLatLng(String lat, String lng)
+    {
+        TEMP_UNITS = BackBaseApplication.getGlobalApplicationInstance().getDefaultUnit();
+        return String.format("http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=%s",lat, lng, API_KEY,TEMP_UNITS);
+    }
+
     public static String getFiveDayWeatherUrl(String cityName)
     {
         TEMP_UNITS = BackBaseApplication.getGlobalApplicationInstance().getDefaultUnit();
         return String.format("http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=%s&units=%s",cityName, API_KEY,TEMP_UNITS);
+    }
+
+    public static String getFiveDayWeatherUrlByLatLng(String lat, String lng)
+    {
+        TEMP_UNITS = BackBaseApplication.getGlobalApplicationInstance().getDefaultUnit();
+        return String.format("http://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&appid=%s&units=%s",lat,lng, API_KEY,TEMP_UNITS);
     }
 }

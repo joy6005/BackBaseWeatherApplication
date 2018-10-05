@@ -34,8 +34,10 @@ import java.util.List;
 
 public class CityDetailFragment extends Fragment
 {
-    public static final String ARG_ITEM_ID = "item_id";
     public static final String TAG = CityDetailFragment.class.getCanonicalName();
+    public static final String ARG_CITY_NAME = "city_name";
+    public static final String ARG_CITY_LAT = "city_lat";
+    public static final String ARG_CITY_LNG = "city_lng";
 
     private FavoriteCity mFavoriteCity;
     private ImageView imageView;
@@ -45,6 +47,8 @@ public class CityDetailFragment extends Fragment
     private FiveDaysAdapter mFiveDaysAdapter;
     private List<FiveDaysList> mDataModelList;
     private String cityName;
+    private String cityLat;
+    private String cityLng;
 
     public CityDetailFragment()
     {
@@ -55,9 +59,12 @@ public class CityDetailFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID))
+        if (getArguments() != null && getArguments().containsKey(ARG_CITY_NAME))
         {
-            cityName =  getArguments().getString(ARG_ITEM_ID);
+            cityName =  getArguments().getString(ARG_CITY_NAME);
+            cityLat =  getArguments().getString(ARG_CITY_LAT);
+            cityLng =  getArguments().getString(ARG_CITY_LNG);
+
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null)
@@ -83,9 +90,8 @@ public class CityDetailFragment extends Fragment
 
         txtDetails  = rootView.findViewById(R.id.item_detail);
         txtFiveDays = rootView.findViewById(R.id.txtfiveDays);
-
         imageView = rootView.findViewById(R.id.imgWeatherStatus);
-        // Show the dummy content as text in a TextView.
+
         if (cityName != null)
         {
             new AsyncNetworkCall(new NetworkResponse()
@@ -104,13 +110,10 @@ public class CityDetailFragment extends Fragment
 
                         Gson gson = new GsonBuilder().create();
                         WeatherItem dm = gson.fromJson(response, WeatherItem.class);
-                        Log.d(TAG,dm.getName());
                     } catch (JSONException e)
                     {
                         e.printStackTrace();
                     }
-
-
                 }
 
                 @Override
@@ -118,8 +121,8 @@ public class CityDetailFragment extends Fragment
                 {
 
                 }
-            }).execute(BackBaseUtils.getCurrentCityUrl(cityName));
-
+            }).execute(BackBaseUtils.getCurrentCityUrlByLatLng(cityLat,cityLng));
+            Log.d("URL-URL",BackBaseUtils.getCurrentCityUrlByLatLng(cityLat,cityLng));
         }
 
         new AsyncNetworkCall(new NetworkResponse()
@@ -138,7 +141,8 @@ public class CityDetailFragment extends Fragment
             {
 
             }
-        }).execute(BackBaseUtils.getFiveDayWeatherUrl(cityName));
+        }).execute(BackBaseUtils.getFiveDayWeatherUrlByLatLng(cityLat, cityLng));
+        Log.d("URL-URL",BackBaseUtils.getFiveDayWeatherUrlByLatLng(cityLat,cityLng));
 
         return rootView;
     }

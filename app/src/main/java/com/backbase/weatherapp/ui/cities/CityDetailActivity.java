@@ -47,8 +47,11 @@ public class CityDetailActivity extends AppCompatActivity
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(CityDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(CityDetailFragment.ARG_ITEM_ID));
+            arguments.putString(CityDetailFragment.ARG_CITY_NAME,
+                    getIntent().getStringExtra(CityDetailFragment.ARG_CITY_NAME));
+            arguments.putString(CityDetailFragment.ARG_CITY_LAT,getIntent().getStringExtra(CityDetailFragment.ARG_CITY_LAT));
+            arguments.putString(CityDetailFragment.ARG_CITY_LNG,getIntent().getStringExtra(CityDetailFragment.ARG_CITY_LNG));
+
             CityDetailFragment fragment = new CityDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -43,7 +43,9 @@ public class FavoriteCitiesRecyclerViewAdapter
             if (mTwoPane)
             {
                 Bundle arguments = new Bundle();
-                arguments.putString(CityDetailFragment.ARG_ITEM_ID, city.getName());
+                arguments.putString(CityDetailFragment.ARG_CITY_NAME, city.getName());
+                arguments.putString(CityDetailFragment.ARG_CITY_LAT, city.getLat());
+                arguments.putString(CityDetailFragment.ARG_CITY_LNG, city.getLon());
                 CityDetailFragment fragment = new CityDetailFragment();
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -53,7 +55,10 @@ public class FavoriteCitiesRecyclerViewAdapter
             {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, CityDetailActivity.class);
-                intent.putExtra(CityDetailFragment.ARG_ITEM_ID, city.getName());
+                intent.putExtra(CityDetailFragment.ARG_CITY_NAME, city.getName());
+                intent.putExtra(CityDetailFragment.ARG_CITY_LAT, city.getLat());
+                intent.putExtra(CityDetailFragment.ARG_CITY_LNG, city.getLon());
+
                 context.startActivity(intent);
             }
         }
