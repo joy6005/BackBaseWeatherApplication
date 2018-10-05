@@ -27,4 +27,7 @@ public interface FavorityCityDao
 
     @Query("DELETE FROM FavoriteCity")
     void deleteAll();
+
+    @Query("DELETE FROM FavoriteCity WHERE NOT isDefault =:isDefault")
+    void deleteAll(boolean isDefault);
 }

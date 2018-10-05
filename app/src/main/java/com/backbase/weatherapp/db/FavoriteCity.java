@@ -33,13 +33,17 @@ public class FavoriteCity
     @ColumnInfo(name = "lon")
     private String lon;
 
-    public FavoriteCity(long cityId, String name, String country, String lat, String lon)
+    @ColumnInfo(name = "isDefault")
+    private boolean isDefault;
+
+    public FavoriteCity(long cityId, String name, String country, String lat, String lon, boolean isDefault)
     {
         this.cityId = cityId;
         this.name = name;
         this.country = country;
         this.lat = lat;
         this.lon = lon;
+        this.isDefault = isDefault;
     }
 
     public int getUid()
@@ -100,5 +104,15 @@ public class FavoriteCity
     public void setLon(String lon)
     {
         this.lon = lon;
+    }
+
+    public boolean isDefault()
+    {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault)
+    {
+        isDefault = aDefault;
     }
 }

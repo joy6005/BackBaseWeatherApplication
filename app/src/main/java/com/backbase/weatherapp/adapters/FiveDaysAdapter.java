@@ -66,7 +66,13 @@ public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDa
         String date = BackBaseUtils.getDateFromTimeStamp(mFiveDaysList.getDt());
         dataViewHolder.txtTime.setText(date);
         //dataViewHolder.txtTime.setText(mFiveDaysList.getDtTxt());
-        dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()) + " \u2103");
+        if(BackBaseUtils.TEMP_UNITS.equals("metric"))
+        {
+            dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()) + " \u2103");
+        }else
+        {
+            dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()) + " \u2109");
+        }
         dataViewHolder.txtHumidity.setText("Humidity : " + String.valueOf(Math.round(mMain.getHumidity()))  + "%");
         dataViewHolder.txtWind.setText("Wind : " + String.valueOf(Math.round(mWind.getSpeed())) + "m/s");
         if(mRain!=null)

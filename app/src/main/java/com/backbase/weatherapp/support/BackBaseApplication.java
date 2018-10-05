@@ -3,6 +3,8 @@ package com.backbase.weatherapp.support;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.backbase.weatherapp.db.FavoriteCity;
 import com.backbase.weatherapp.db.WeatherDatabase;
@@ -65,15 +67,29 @@ public class BackBaseApplication extends Application
 
     private void populateFavoriteCities()
     {
+        //12 Default Favorite Cities
         List<FavoriteCity> list = new ArrayList<>();
-        list.add(new FavoriteCity(6167865,"Toronto","CA","43.700111","-79.416298"));
-        list.add(new FavoriteCity(6183235,"Winnipeg","CA","49.884399","-97.147041"));
-        list.add(new FavoriteCity(6173331,"Vancouver","CA","49.24966","-123.119339"));
-        list.add(new FavoriteCity(5128638,"New York","US","43.000351","-75.499901"));
-        list.add(new FavoriteCity(1275339,"Mumbai","IN","19.01441","72.847939"));
-        list.add(new FavoriteCity(2643743,"London","GB","51.50853","-0.12574"));
+        list.add(new FavoriteCity(6167865,"Toronto","CA","43.700111","-79.416298", true));
+        list.add(new FavoriteCity(6183235,"Winnipeg","CA","49.884399","-97.147041", true));
+        list.add(new FavoriteCity(6173331,"Vancouver","CA","49.24966","-123.119339", true));
+        list.add(new FavoriteCity(5128638,"New York","US","43.000351","-75.499901", true));
+        list.add(new FavoriteCity(1275339,"Mumbai","IN","19.01441","72.847939", true));
+        list.add(new FavoriteCity(2643743,"London","GB","51.50853","-0.12574", true));
+        list.add(new FavoriteCity(232422,"Kampala","UG","0.31628","32.582191", true));
+        list.add(new FavoriteCity(6091530,"Nova Scotia","CA","45.000149","-62.99865", true));
+        list.add(new FavoriteCity(5332921,"California","US","37.250221","-119.751259", true));
+        list.add(new FavoriteCity(5506956,"Las Vegas","US","36.174969","-115.137222", true));
+        list.add(new FavoriteCity(2147714,"Sydney","AU","-33.867851","151.207321", true));
+        list.add(new FavoriteCity(1861060,"Japan","JP","35.68536","139.753098", true));
 
-          // insert product list into database
+        // insert product list into database
         database.favorityCityDao().insertAll(list);
+    }
+
+    public String getDefaultUnit()
+    {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("UNIT", sp.getString("unit_name", "NO"));
+        return sp.getString("unit_name", "metric");
     }
 }
