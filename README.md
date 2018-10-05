@@ -1,5 +1,8 @@
 # BackBase Weather Application
 
+Long Press on add button to see tooltip
+Search View added on Menu View 
+
 # References
 http://www.jsonschema2pojo.org/
 https://guides.codepath.com/android/leveraging-the-gson-library

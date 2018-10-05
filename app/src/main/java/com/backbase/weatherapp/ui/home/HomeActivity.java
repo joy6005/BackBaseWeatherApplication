@@ -1,9 +1,12 @@
 package com.backbase.weatherapp.ui.home;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,12 +26,14 @@ import com.backbase.weatherapp.ui.settings.SettingsActivity;
 
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
     private boolean mTwoPane;
     private List<FavoriteCity>mFavoriteCityList;
     private FavoriteCitiesRecyclerViewAdapter mFavoriteCitiesRecyclerViewAdapter;
-    private static String []cityName = {"Toronto", "Edmonton", "Winnipeg", "Ottawa", "Vancouver"};
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,8 +50,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
 
@@ -64,6 +68,15 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -79,10 +92,6 @@ public class HomeActivity extends AppCompatActivity
                 SettingsActivity.start(this);
                 return true;
 
-            case R.id.action_search:
-                Toast.makeText(this," action clicked", Toast.LENGTH_LONG).show();
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -93,9 +102,21 @@ public class HomeActivity extends AppCompatActivity
     {
         List<FavoriteCity>mFavoriteCityList = BackBaseApplication.getGlobalApplicationInstance().getDB().favorityCityDao().getAll();
         Log.d("SIZE", "COUNT : " + mFavoriteCityList.size());
-        mFavoriteCitiesRecyclerViewAdapter = new FavoriteCitiesRecyclerViewAdapter(this, mFavoriteCityList, mTwoPane);
+        mFavoriteCitiesRecyclerViewAdapter = new FavoriteCitiesRecyclerViewAdapter(this, mFavoriteCityList, mTwoPane, recyclerView);
         recyclerView.setAdapter(mFavoriteCitiesRecyclerViewAdapter);
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        mFavoriteCitiesRecyclerViewAdapter.getFilter().filter(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        //mFavoriteCitiesRecyclerViewAdapter.getFilter().filter(newText);
+
+        return true;
+    }
 
 }
