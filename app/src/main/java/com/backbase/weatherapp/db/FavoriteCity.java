@@ -36,6 +36,8 @@ public class FavoriteCity
     @ColumnInfo(name = "isDefault")
     private boolean isDefault;
 
+    public FavoriteCity(){}
+
     public FavoriteCity(long cityId, String name, String country, String lat, String lon, boolean isDefault)
     {
         this.cityId = cityId;

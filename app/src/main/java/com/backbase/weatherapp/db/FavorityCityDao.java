@@ -22,6 +22,9 @@ public interface FavorityCityDao
     @Insert
     void insertAll(List<FavoriteCity> city);
 
+    @Insert
+    void insert(FavoriteCity city);
+
     @Delete
     void delete(FavoriteCity city);
 
