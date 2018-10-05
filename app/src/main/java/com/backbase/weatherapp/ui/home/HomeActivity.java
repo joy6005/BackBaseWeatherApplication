@@ -100,6 +100,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView)
     {
+        BackBaseApplication.getGlobalApplicationInstance().loadDefaultFavoriteCities();
         List<FavoriteCity>mFavoriteCityList = BackBaseApplication.getGlobalApplicationInstance().getDB().favorityCityDao().getAll();
         Log.d("SIZE", "COUNT : " + mFavoriteCityList.size());
         mFavoriteCitiesRecyclerViewAdapter = new FavoriteCitiesRecyclerViewAdapter(this, mFavoriteCityList, mTwoPane, recyclerView);

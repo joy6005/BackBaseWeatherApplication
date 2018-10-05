@@ -57,6 +57,12 @@ public class BackBaseApplication extends Application
 
     public void loadDefaultFavoriteCities()
     {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sp.getBoolean("reset_city_list", false))
+        {
+            database.favorityCityDao().deleteAll(false);
+            sp.edit().putBoolean("reset_city_list", false).apply();
+        }
 
         List<FavoriteCity>mFavoriteCityList = database.favorityCityDao().getAll();
         if((mFavoriteCityList == null || mFavoriteCityList.isEmpty()))
