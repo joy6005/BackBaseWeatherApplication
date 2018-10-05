@@ -16,6 +16,8 @@ import com.backbase.weatherapp.ui.home.HomeActivity;
 public class CityDetailActivity extends AppCompatActivity
 {
 
+    private CityDetailFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,7 +32,12 @@ public class CityDetailActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                if(fragment != null)
+                {
+                    fragment.loadCurrentCityWeatherInformations();
+                    fragment.loadFiveDaysCurrentCityWeatherInformations();
+                }
+                Snackbar.make(view, "Refreshing...", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -52,7 +59,7 @@ public class CityDetailActivity extends AppCompatActivity
             arguments.putString(CityDetailFragment.ARG_CITY_LAT,getIntent().getStringExtra(CityDetailFragment.ARG_CITY_LAT));
             arguments.putString(CityDetailFragment.ARG_CITY_LNG,getIntent().getStringExtra(CityDetailFragment.ARG_CITY_LNG));
 
-            CityDetailFragment fragment = new CityDetailFragment();
+            fragment = new CityDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)

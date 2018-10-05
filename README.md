@@ -20,8 +20,8 @@ https://openweathermap.org/weather-conditions
 
 How to Use Application
 ------------------------
-Long Press on add button to see tooltip
-Search View added on Menu View 
+-- Long Press on add button to see tooltip
+-- Search View added on Menu View 
 
 # References
 http://www.jsonschema2pojo.org/

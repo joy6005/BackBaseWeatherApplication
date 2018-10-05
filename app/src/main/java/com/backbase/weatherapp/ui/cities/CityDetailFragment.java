@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class CityDetailFragment extends Fragment
     private TextView txtFiveDays;
     private RecyclerView rvFiveDayWeather;
     private FiveDaysAdapter mFiveDaysAdapter;
-    private List<FiveDaysList> mDataModelList;
+    private List<FiveDaysList> fiveDaysLists;
     private String cityName;
     private String cityLat;
     private String cityLng;
@@ -84,14 +83,47 @@ public class CityDetailFragment extends Fragment
         rvFiveDayWeather.setLayoutManager(mLinearLayoutManager);
         rvFiveDayWeather.setHasFixedSize(true);
 
-        mDataModelList = new ArrayList<>();
-        mFiveDaysAdapter = new FiveDaysAdapter(getActivity(),mDataModelList);
+        fiveDaysLists = new ArrayList<>();
+        mFiveDaysAdapter = new FiveDaysAdapter(getActivity(), fiveDaysLists);
         rvFiveDayWeather.setAdapter(mFiveDaysAdapter);
 
         txtDetails  = rootView.findViewById(R.id.item_detail);
         txtFiveDays = rootView.findViewById(R.id.txtfiveDays);
         imageView = rootView.findViewById(R.id.imgWeatherStatus);
 
+        loadCurrentCityWeatherInformations();
+        loadFiveDaysCurrentCityWeatherInformations();
+
+        return rootView;
+    }
+
+    public void loadFiveDaysCurrentCityWeatherInformations()
+    {
+        new AsyncNetworkCall(new NetworkResponse()
+        {
+            @Override
+            public void onSuccess(String response)
+            {
+                fiveDaysLists.clear();
+                Gson gson = new GsonBuilder().create();
+                City cityList = gson.fromJson(response, City.class);
+
+                fiveDaysLists.addAll(cityList.getList());
+                mFiveDaysAdapter.notifyDataSetChanged();
+                //mFiveDaysAdapter.clear();
+                //mFiveDaysAdapter.addAll(fiveDaysLists);
+            }
+
+            @Override
+            public void onError(String errorMessage)
+            {
+
+            }
+        }).execute(BackBaseUtils.getFiveDayWeatherUrlByLatLng(cityLat, cityLng));
+    }
+
+    public void loadCurrentCityWeatherInformations()
+    {
         if (cityName != null)
         {
             new AsyncNetworkCall(new NetworkResponse()
@@ -109,7 +141,7 @@ public class CityDetailFragment extends Fragment
                                 .into(imageView);
 
                         Gson gson = new GsonBuilder().create();
-                        WeatherItem dm = gson.fromJson(response, WeatherItem.class);
+                        WeatherItem currentCityWeather = gson.fromJson(response, WeatherItem.class);
                     } catch (JSONException e)
                     {
                         e.printStackTrace();
@@ -122,29 +154,7 @@ public class CityDetailFragment extends Fragment
 
                 }
             }).execute(BackBaseUtils.getCurrentCityUrlByLatLng(cityLat,cityLng));
-            Log.d("URL-URL",BackBaseUtils.getCurrentCityUrlByLatLng(cityLat,cityLng));
         }
-
-        new AsyncNetworkCall(new NetworkResponse()
-        {
-            @Override
-            public void onSuccess(String response)
-            {
-                Gson gson = new GsonBuilder().create();
-                City dm = gson.fromJson(response, City.class);
-
-                mFiveDaysAdapter.addAll(dm.getList());
-            }
-
-            @Override
-            public void onError(String errorMessage)
-            {
-
-            }
-        }).execute(BackBaseUtils.getFiveDayWeatherUrlByLatLng(cityLat, cityLng));
-        Log.d("URL-URL",BackBaseUtils.getFiveDayWeatherUrlByLatLng(cityLat,cityLng));
-
-        return rootView;
     }
 }
 

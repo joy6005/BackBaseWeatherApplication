@@ -22,25 +22,30 @@ import java.util.List;
 
 public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDaysViewHolder>
 {
-    private List<FiveDaysList> mDataModelList;
+    private List<FiveDaysList> fiveDaysLists;
     private Activity mActivity;
 
     public FiveDaysAdapter(Activity activity, List<FiveDaysList> dataModelList)
     {
         mActivity = activity;
-        this.mDataModelList = dataModelList;
+        this.fiveDaysLists = dataModelList;
     }
 
     @Override
     public int getItemCount()
     {
-        return mDataModelList.size();
+        return fiveDaysLists.size();
     }
 
     // Add a list of items -- change to type used
     public void addAll(List<FiveDaysList> list) {
 
-        mDataModelList.addAll(0,list);
+        fiveDaysLists.addAll(0,list);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        fiveDaysLists.clear();
         notifyDataSetChanged();
     }
 
@@ -57,11 +62,11 @@ public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDa
     @Override
     public void onBindViewHolder(FiveDaysViewHolder dataViewHolder, int i)
     {
-        FiveDaysList mFiveDaysList = mDataModelList.get(i);
-        Main mMain = mDataModelList.get(i).getMain();
-        Wind mWind = mDataModelList.get(i).getWind();
-        Rain mRain = mDataModelList.get(i).getRain();
-        Weather mWeather = mDataModelList.get(i).getWeather().get(0);
+        FiveDaysList mFiveDaysList = fiveDaysLists.get(i);
+        Main mMain = fiveDaysLists.get(i).getMain();
+        Wind mWind = fiveDaysLists.get(i).getWind();
+        Rain mRain = fiveDaysLists.get(i).getRain();
+        Weather mWeather = fiveDaysLists.get(i).getWeather().get(0);
 
         String date = BackBaseUtils.getDateFromTimeStamp(mFiveDaysList.getDt());
         dataViewHolder.txtTime.setText(date);
