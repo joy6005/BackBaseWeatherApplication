@@ -37,7 +37,7 @@ public class CityDetailActivity extends AppCompatActivity
                     fragment.loadCurrentCityWeatherInformations();
                     fragment.loadFiveDaysCurrentCityWeatherInformations();
                 }
-                Snackbar.make(view, "Refreshing...", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Refreshing...", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
         });

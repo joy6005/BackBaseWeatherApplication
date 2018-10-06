@@ -20,7 +20,7 @@ https://openweathermap.org/weather-conditions
 
 How to Use Application
 ------------------------
--- Long Press on add button to see tooltip
+-- Long Press on add/refresh button to see tooltip
 -- Search View added on Menu View 
 
 # References

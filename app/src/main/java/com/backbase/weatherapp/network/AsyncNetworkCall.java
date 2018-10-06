@@ -1,4 +1,6 @@
 package com.backbase.weatherapp.network;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,15 +20,22 @@ public class AsyncNetworkCall extends AsyncTask<String, Void, String>
 {
     private static final  String TAG = AsyncNetworkCall.class.getName();
     NetworkResponse mNetworkResponse;
-    public AsyncNetworkCall(NetworkResponse mNetworkResponse)
+    private ProgressDialog progressDialog;
+    private Activity activity;
+
+    public AsyncNetworkCall(Activity activity, NetworkResponse mNetworkResponse)
     {
         this.mNetworkResponse = mNetworkResponse;
+        this.activity = activity;
+        progressDialog = new ProgressDialog(activity);
     }
 
     @Override
     protected void onPreExecute()
     {
-        super.onPreExecute();
+        this.progressDialog.setMessage("Wait.. Loading Weather information");
+        this.progressDialog.setCancelable(false);
+        this.progressDialog.show();
     }
 
     @Override
@@ -64,6 +73,10 @@ public class AsyncNetworkCall extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+
         if(result != null)
         {
             mNetworkResponse.onSuccess(result);

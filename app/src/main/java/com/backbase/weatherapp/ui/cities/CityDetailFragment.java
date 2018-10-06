@@ -99,7 +99,7 @@ public class CityDetailFragment extends Fragment
 
     public void loadFiveDaysCurrentCityWeatherInformations()
     {
-        new AsyncNetworkCall(new NetworkResponse()
+        new AsyncNetworkCall(getActivity(),new NetworkResponse()
         {
             @Override
             public void onSuccess(String response)
@@ -126,7 +126,7 @@ public class CityDetailFragment extends Fragment
     {
         if (cityName != null)
         {
-            new AsyncNetworkCall(new NetworkResponse()
+            new AsyncNetworkCall(getActivity(),new NetworkResponse()
             {
                 @Override
                 public void onSuccess(String response)
