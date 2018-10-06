@@ -19,6 +19,7 @@
             android:id="@+id/txtTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_weight="1"
             android:text="Morning"
             android:textSize="18sp"
@@ -58,12 +59,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_humidity"
-                android:text="Humidity" />
+                android:text="Humi" />
 
             <TextView
                 android:id="@+id/txtWind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/ic_wind"
                 android:text="Wind" />
 
@@ -71,6 +73,7 @@
                 android:id="@+id/txtRain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/ic_rain"
                 android:text="Rain" />
         </LinearLayout>

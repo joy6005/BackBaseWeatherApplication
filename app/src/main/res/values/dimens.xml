@@ -7,4 +7,6 @@
 
     <dimen name="imgWeatherStatus">96dp</dimen>
     <dimen name="img_pressure">32dp</dimen>
+
+    <dimen name="card_text">20sp</dimen>
 </resources>

@@ -66,6 +66,7 @@
                         android:id="@+id/item_pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="Pre" />
 
                 </LinearLayout>
@@ -91,6 +92,7 @@
                         android:id="@+id/item_humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="Humi" />
 
                 </LinearLayout>
@@ -115,6 +117,7 @@
                         android:id="@+id/item_min_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="Min_t" />
 
                 </LinearLayout>
@@ -145,6 +148,7 @@
                         android:id="@+id/item_max_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="Max_t" />
 
                 </LinearLayout>
@@ -169,6 +173,7 @@
                         android:id="@+id/item_wind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="wind" />
 
                 </LinearLayout>
@@ -193,6 +198,7 @@
                         android:id="@+id/item_cloud"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_text"
                         android:text="cloud" />
 
                 </LinearLayout>
