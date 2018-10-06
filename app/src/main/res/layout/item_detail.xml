@@ -24,8 +24,13 @@
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical|center_horizontal"
         android:padding="16dp"
-        android:text="Five Days Weather"/>
+        android:text="Five Days Weather"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvFiveDayWeather"

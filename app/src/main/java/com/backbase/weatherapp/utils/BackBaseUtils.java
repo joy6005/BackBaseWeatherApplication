@@ -1,6 +1,7 @@
 package com.backbase.weatherapp.utils;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.backbase.weatherapp.support.BackBaseApplication;
 
@@ -20,6 +21,33 @@ public class BackBaseUtils
         date += "\n" + DateFormat.format("dd MMM yyyy", cal).toString();
         date += "\n" + DateFormat.format("hh:mm a", cal).toString();
         return date;
+    }
+
+    public static String degreesToDirection(double degrees)
+    {
+        degrees *= 10;
+
+        String[] caridnals = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N" };
+        return caridnals[(int)Math.round(((double)degrees % 3600) / 225)];
+    }
+
+    public static String getStringFromMilli(long millis) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millis);
+        int hours = c.get(Calendar.HOUR_OF_DAY);
+        Log.d("HOURS", String.valueOf(hours));
+
+        if(hours >= 1 && hours <= 12){
+            return "\uD83C\uDF05 Morning";
+        }else if(hours >= 12 && hours <= 16){
+            return "Afternoon";
+        }else if(hours >= 16 && hours <= 21){
+            return "\uD83C\uDF07 Evening";
+        }else if(hours >= 21 && hours <= 24){
+            return "\uD83C\uDF03 Night";
+        }
+        return null;
     }
 
     public static String getImageUrl(String imageName)

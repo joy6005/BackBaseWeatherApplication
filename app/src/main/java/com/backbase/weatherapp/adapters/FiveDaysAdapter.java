@@ -79,7 +79,12 @@ public class FiveDaysAdapter extends RecyclerView.Adapter<FiveDaysAdapter.FiveDa
             dataViewHolder.txtTemperature.setText(String.valueOf(mMain.getTemp()) + " \u2109");
         }
         dataViewHolder.txtHumidity.setText("Humidity : " + String.valueOf(Math.round(mMain.getHumidity()))  + "%");
-        dataViewHolder.txtWind.setText("Wind : " + String.valueOf(Math.round(mWind.getSpeed())) + "m/s");
+
+        if(mWind != null)
+        {
+            dataViewHolder.txtWind.setText("Wind : " + String.valueOf(Math.round(mWind.getSpeed())) + "m/s  " + BackBaseUtils.degreesToDirection(mWind.getDeg()));
+        }
+
         if(mRain!=null)
         {
             dataViewHolder.txtRain.setText("Rain : " + String.valueOf(Math.round(mRain.get3h())) + "%");
