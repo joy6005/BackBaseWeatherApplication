@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private int REQUEST_PLACE_PICKER = 101;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,8 +65,13 @@ public class HomeActivity extends AppCompatActivity implements SearchView.OnQuer
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.item_list);
-        assert recyclerView != null;
+        recyclerView = findViewById(R.id.item_list);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
