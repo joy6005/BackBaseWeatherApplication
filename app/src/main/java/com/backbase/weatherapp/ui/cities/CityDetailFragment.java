@@ -40,8 +40,13 @@ public class CityDetailFragment extends Fragment
 
     private FavoriteCity mFavoriteCity;
     private ImageView imageView;
-    private TextView txtDetails;
-    private TextView txtFiveDays;
+    private TextView txtHumidity;
+    private TextView txtPressure;
+    private TextView item_temp;
+    private TextView txtMaxTemp;
+    private TextView txtMinTemp;
+    private TextView txtWind;
+    private TextView txtCloud;
     private RecyclerView rvFiveDayWeather;
     private FiveDaysAdapter mFiveDaysAdapter;
     private List<FiveDaysList> fiveDaysLists;
@@ -87,9 +92,15 @@ public class CityDetailFragment extends Fragment
         mFiveDaysAdapter = new FiveDaysAdapter(getActivity(), fiveDaysLists);
         rvFiveDayWeather.setAdapter(mFiveDaysAdapter);
 
-        txtDetails  = rootView.findViewById(R.id.item_detail);
-        txtFiveDays = rootView.findViewById(R.id.txtfiveDays);
         imageView = rootView.findViewById(R.id.imgWeatherStatus);
+
+        txtHumidity  = rootView.findViewById(R.id.item_humidity);
+        txtPressure  = rootView.findViewById(R.id.item_pressure);
+        txtMaxTemp  = rootView.findViewById(R.id.item_max_temp);
+        txtMinTemp  = rootView.findViewById(R.id.item_min_temp);
+        item_temp = rootView.findViewById(R.id.item_temp);
+        txtWind  = rootView.findViewById(R.id.item_wind);
+        txtCloud  = rootView.findViewById(R.id.item_cloud);
 
         loadCurrentCityWeatherInformations();
         loadFiveDaysCurrentCityWeatherInformations();
@@ -131,7 +142,6 @@ public class CityDetailFragment extends Fragment
                 @Override
                 public void onSuccess(String response)
                 {
-                    txtDetails.setText(response);
                     try
                     {
                         JSONObject mJsonObject = new JSONObject(response);
@@ -142,6 +152,25 @@ public class CityDetailFragment extends Fragment
 
                         Gson gson = new GsonBuilder().create();
                         WeatherItem currentCityWeather = gson.fromJson(response, WeatherItem.class);
+
+                        if(BackBaseUtils.TEMP_UNITS.equals("metric")) {
+                            item_temp.setText(String.valueOf(currentCityWeather.getMain().getTemp()) + " \u2103");
+                            txtMaxTemp.setText(String.valueOf(currentCityWeather.getMain().getTempMax()) + " \u2103");
+                            txtMinTemp.setText(String.valueOf(currentCityWeather.getMain().getTempMin()) + " \u2103");
+                        }else
+                        {
+                            item_temp.setText(String.valueOf(currentCityWeather.getMain().getTemp()) + " \u2109");
+                            txtMaxTemp.setText(String.valueOf(currentCityWeather.getMain().getTempMax()) + " \u2109");
+                            txtMinTemp.setText(String.valueOf(currentCityWeather.getMain().getTempMin()) + " \u2109");
+
+                        }
+
+                        txtPressure.setText(String.valueOf(currentCityWeather.getMain().getPressure()));
+                        txtHumidity.setText(String.valueOf(currentCityWeather.getMain().getHumidity()));
+
+                        txtWind.setText(String.valueOf(currentCityWeather.getWind().getSpeed()));
+                        txtCloud.setText(String.valueOf(currentCityWeather.getClouds().getAll()));
+
                     } catch (JSONException e)
                     {
                         e.printStackTrace();
